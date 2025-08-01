@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* Base styles for light theme */
+    body {
+      background-image: url('./images/bg.jpg'); /* Dynamic background image */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #1f2937; /* text-gray-900 */
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .quiz-container {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    .btn-purple {
+      background-color: #8B5CF6;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-purple:hover {
+      background-color: #7C3AED;
+      transform: translateY(-2px);
+    }
+    .btn-create {
+      background-color: #6D28D9;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-create:hover {
+      background-color: #5B21B6;
+      transform: translateY(-2px);
+    }
+    .btn-play-gk {
+      background-color: #9333EA;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-play-gk:hover {
+      background-color: #7E22CE;
+      transform: translateY(-2px);
+    }
+    .music-toggle-button {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #8B5CF6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .music-toggle-button:hover {
+      background-color: #8B5CF6;
+      color: white;
+    }
+
+    /* Dark theme styles */
+    body.dark {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./images/bg.jpg'); /* Darker overlay and different dark background */
+      color: #e2e8f0;
+    }
+    body.dark .quiz-container {
+      background-color: rgba(45, 55, 72, 0.95); /* darker background */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    body.dark .text-gray-900 {
+      color: #e2e8f0; /* Lighter text for dark mode */
+    }
+    body.dark .text-purple-700 {
+      color: #9F7AEA; /* Lighter purple for dark mode */
+    }
+    body.dark .btn-purple, body.dark .btn-create, body.dark .btn-play-gk {
+      background-color: #9F7AEA; /* Consistent button color for dark mode */
+    }
+    body.dark .btn-purple:hover, body.dark .btn-create:hover, body.dark .btn-play-gk:hover {
+      background-color: #805AD5;
+    }
+    body.dark .music-toggle-button {
+      background-color: rgba(45, 55, 72, 0.8);
+      color: #9F7AEA;
+      border-color: #9F7AEA;
+    }
+    body.dark .music-toggle-button:hover {
+      background-color: #9F7AEA;
+      color: white;
+    }
+    .theme-toggle-button {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #5742f1;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .theme-toggle-button:hover {
+      background-color: #b6a0e9;
+    }
+    body.dark .theme-toggle-button {
+      background-color: rgba(45, 55, 72, 0.8);
+      color: #CBD5E0;
+    }
+    body.dark .theme-toggle-button:hover {
+      background-color: #4A5568;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+  <button id="musicToggleButton" class="music-toggle-button absolute top-6 right-20 p-4 rounded-full shadow-lg">
+    <i id="speakerIcon" class="fas fa-volume-up text-2xl"></i>
+  </button>
+  
+  <button id="themeToggleButton" class="theme-toggle-button absolute top-6 right-4 p-4 rounded-full text-2xl shadow-lg focus:outline-none transition-colors duration-300 ease-in-out">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="quiz-container text-center space-y-8 max-w-lg w-full">
+    <h1 class="text-5xl font-extrabold text-gray-900 drop-shadow-md">
+      <span class="text-purple-700">Quiz</span> Game
+    </h1>
+    
+    <p class="text-gray-600 text-lg">
+      Test your knowledge or create your own challenges!
+    </p>
+
+    <div class="space-y-5">
+      <button onclick="location.href='create.html'" class="w-full px-8 py-4 btn-create text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-300 transform hover:scale-105">
+        <i class="fas fa-plus-circle mr-3"></i> Create New Quiz
+      </button>
+    
+      <button onclick="location.href='play.html'" class="w-full px-8 py-4 btn-purple text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-300 transform hover:scale-105">
+        <i class="fas fa-play-circle mr-3"></i> Play Custom Quiz
+      </button>
+      
+      <button onclick="location.href='gk.html'" class="w-full px-8 py-4 btn-play-gk text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-300 transform hover:scale-105">
+        <i class="fas fa-brain mr-3"></i> Play General Knowledge Quiz
+      </button>
+    </div>
+  </div>
+
+  <audio id="backgroundMusic" loop>
+    <source src="./music/music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script type="module" src="./JavaScript/theme-toggle.js"></script> <script>
+    const musicToggleButton = document.getElementById('musicToggleButton');
+    const speakerIcon = document.getElementById('speakerIcon');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    let isPlaying = false; 
+    
+    function toggleMusic() {
+      if (isPlaying) {
+        backgroundMusic.pause();
+        speakerIcon.classList.remove('fa-volume-up');
+        speakerIcon.classList.add('fa-volume-mute');
+      } else {
+        backgroundMusic.play();
+        speakerIcon.classList.remove('fa-volume-mute');
+        speakerIcon.classList.add('fa-volume-up');
+      }
+      isPlaying = !isPlaying;
+    }
+    
+    musicToggleButton.addEventListener('click', toggleMusic);
+    
+    // Set initial state to muted on page load
+    window.onload = function() {
+      speakerIcon.classList.remove('fa-volume-up');
+      speakerIcon.classList.add('fa-volume-mute');
+      isPlaying = false;
+      backgroundMusic.pause(); // Ensure it's paused initially
+      backgroundMusic.currentTime = 0; // Reset music to start
+    };
+
+    // theme-toggle.js
+
+
+  </script>
+</body>
+</html>

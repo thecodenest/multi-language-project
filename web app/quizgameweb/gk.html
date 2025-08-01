@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>General Knowledge Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* Base styles for light theme */
+    body {
+      background-image: url('./images/bg.jpg');
+      color: #1f2937; /* text-gray-900 */
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .container-card {
+      background-color: #ffffff;
+      border-radius: 1rem; /* rounded-xl */
+      padding: 2.5rem; /* p-10 */
+      box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+    }
+    .input-field {
+      border: 1px solid #d1d5db; /* border-gray-300 */
+      background-color: #f9fafb; /* bg-gray-50 */
+      color: #1f2937; /* text-gray-900 */
+    }
+    .button-primary {
+      background-color: #8B5CF6; /* purple-500 */
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .button-primary:hover {
+      background-color: #7C3AED; /* purple-600 */
+      transform: translateY(-2px);
+    }
+    .button-secondary {
+      background-color: #6B7280; /* gray-500 */
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .button-secondary:hover {
+      background-color: #4B5563; /* gray-600 */
+      transform: translateY(-2px);
+    }
+    .music-toggle-button {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #8B5CF6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .music-toggle-button:hover {
+      background-color: #8B5CF6;
+      color: white;
+    }
+    .theme-toggle-button {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #4A5568;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .theme-toggle-button:hover {
+      background-color: #cbd5e0;
+    }
+
+    /* Dark theme styles */
+    body.dark {
+     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./images/bg.jpg');
+      color: #e2e8f0; /* lighter text */
+    }
+    body.dark .container-card {
+      background-color: #2d3748; /* darker card */
+      box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    }
+    body.dark .input-field {
+      border: 1px solid #4a5568; /* darker border */
+      background-color: #2f3644; /* darker input bg */
+      color: #e2e8f0; /* lighter input text */
+    }
+    body.dark .button-primary {
+      background-color: #9F7AEA; /* slightly lighter purple for dark mode */
+    }
+    body.dark .button-primary:hover {
+      background-color: #805AD5;
+    }
+    body.dark .button-secondary {
+      background-color: #4A5568; /* darker gray for dark mode */
+    }
+    body.dark .button-secondary:hover {
+      background-color: #2D3748;
+    }
+    body.dark .music-toggle-button {
+      background-color: rgba(45, 55, 72, 0.8);
+      color: #9F7AEA;
+      border-color: #9F7AEA;
+    }
+    body.dark .music-toggle-button:hover {
+      background-color: #9F7AEA;
+      color: white;
+    }
+    .theme-toggle-button {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #5742f1;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .theme-toggle-button:hover {
+      background-color: #b6a0e9;
+    }
+    body.dark .theme-toggle-button {
+      background-color: rgba(45, 55, 72, 0.8);
+      color: #CBD5E0;
+    }
+    body.dark .theme-toggle-button:hover {
+      background-color: #4A5568;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+  <button id="musicToggleButton" class="music-toggle-button absolute top-6 right-20 p-4 rounded-full shadow-lg">
+    <i id="speakerIcon" class="fas fa-volume-up text-2xl"></i>
+  </button>
+  
+  <button id="themeToggleButton" class="theme-toggle-button absolute top-6 right-6 p-4 rounded-full text-2xl shadow-lg focus:outline-none transition-colors duration-300 ease-in-out">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="container-card w-full max-w-2xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-4xl font-extrabold text-purple-700 dark:text-purple-400">General Knowledge Quiz</h1>
+      <button onclick="location.href='home.html'" class="button-secondary text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-300">
+        <i class="fas fa-arrow-left mr-2"></i> Back
+      </button>
+    </div>
+    
+    <div id="gkQuizSetup" class="space-y-6">
+      <div>
+        <label for="ageInput" class="block text-lg font-semibold mb-2">Enter Your Age:</label>
+        <input id="ageInput" type="number" min="5" max="100" placeholder="18" class="input-field p-3 w-full rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label for="subjectSelect" class="block text-lg font-semibold mb-2">Select Subject:</label>
+        <select id="subjectSelect" class="input-field p-3 w-full rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+          <option selected value="">Select Subject</option>
+          <option value="science">Science</option>
+          <option value="math">Math</option>
+          <option value="geography">Geography</option>
+          <option value="history">History</option>
+          <option value="sports">Sports</option>
+        </select>
+      </div>
+
+      <button id="startGKQuizBtn" class="button-primary text-white font-bold py-3 px-8 rounded-lg w-full text-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-300">
+        <i class="fas fa-play-circle mr-3"></i> Start GK Quiz
+      </button>
+    </div>
+
+    <div id="gkQuizContainer" class="mt-8 space-y-6 hidden">
+      </div>
+
+    <div id="gkQuizResults" class="mt-8 hidden container-card text-center">
+        <h2 class="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-4">Quiz Complete!</h2>
+        <p class="text-xl mb-2"><span class="font-semibold">Your Score:</span> <span id="gkFinalScore" class="text-green-600 dark:text-green-400"></span> / <span id="gkTotalQuestions"></span></p>
+        <button onclick="location.reload()" class="button-primary text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-purple-300">
+            <i class="fas fa-redo mr-3"></i> Play Again
+        </button>
+    </div>
+  </div>
+
+  <audio id="backgroundMusic" loop>
+    <source src="./music/music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script type="module" src="./JavaScript/theme-toggle.js"></script> <script type="module" src="./JavaScript/gk.js"></script> 
+  
+</body>
+</html>
